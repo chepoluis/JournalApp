@@ -3,6 +3,8 @@ import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { startCreatingUserWithEmailPassword } from '../../store/auth/thunks';
 
 const formData = {
     email: '',
@@ -18,6 +20,8 @@ const formValidations = {
 
 export const RegisterPage = () => {
 
+    const dispatch = useDispatch();
+
     const [formSubmitted, setFormSubmitted] = useState(false);
 
     const {
@@ -27,15 +31,15 @@ export const RegisterPage = () => {
 
     const onSubmit = ( event ) => {
         event.preventDefault();
-
         setFormSubmitted(true);
-        console.log(formState)
+
+        if ( !isFormValid ) return;
+
+        dispatch(startCreatingUserWithEmailPassword(formState));
     }
 
     return (
         <AuthLayout title='Crear cuenta'>
-            <h1>Form valid {isFormValid ? 'Valido' : 'Incorrecto'}</h1>
-
             <form onSubmit={ onSubmit }>
                 <Grid container>
                     <Grid item xs={ 12 } sx={{ mt: 2 }}>

@@ -2,7 +2,7 @@
  * thunks: son acciones que se usan con el dispatch, pero internamente tienen un tarea asincrona
  */
 
-import { signInWithGoogle } from "../../firebase/providers";
+import { registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
 import { checkingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email, password) => {
@@ -21,5 +21,15 @@ export const startGoogleSignIn = () => {
         if (!result.ok) return dispatch( logout( result ) );
         
         dispatch( login( result ) );
+    }
+}
+
+export const startCreatingUserWithEmailPassword = ({ email, password, displayName }) => {
+    return async (dispatch) => {
+        dispatch( checkingCredentials() );
+
+        const resp = await registerUserWithEmailPassword({ email, password, displayName });
+
+        console.log(resp)
     }
 }
