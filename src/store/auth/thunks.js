@@ -1,8 +1,8 @@
 /**
- * thunks: son acciones que se usan con el dispatch, pero internamente tienen un tarea asincrona
+ * thunks: son acciones que se usan con el dispatch, pero internamente tienen un tarea "asincrona"
  */
 
-import { loginWithEmailPassword, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
+import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
 import { checkingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email, password) => {
@@ -45,5 +45,17 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
         if (!ok) return dispatch( logout({ errorMessage }) );
 
         dispatch( login({ uid, displayName, email, photoURL }) );
+    }
+}
+
+export const startLogout = () => {
+    return async (dispatch) => {
+        try {
+            await logoutFirebase();
+        } catch (error) {
+            console.error(error);
+        }
+
+        dispatch( logout({}) );
     }
 }
