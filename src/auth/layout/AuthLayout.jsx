@@ -14,7 +14,7 @@ export const AuthLayout = ({ children, title = '' }) => {
                 className="box-shadow"
                 xs={ 3 } // Tamaño de la caja
                 sx={{ 
-                    width: { md: 450 },
+                    width: { md: 450 }, //
                     backgroundColor: 'white', 
                     padding: 3, 
                     borderRadius: 2 }}
