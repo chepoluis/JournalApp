@@ -19,7 +19,7 @@ export const JournalPage = () => {
             {/* <Typography variant='h1'>JournalPage</Typography> */}
             {/* <Typography>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, necessitatibus voluptas fuga, dolorum commodi officia similique animi est repellat consequatur recusandae quia magnam? Alias accusantium nihil corrupti nisi blanditiis? Beatae!</Typography> */}
 
-            {/* Show the active note if exist */}
+            {/* Show the active note "if exist" */}
             {
                 (!!active) // Lo convertimos a un valor boolean
                     ? <NoteView />
