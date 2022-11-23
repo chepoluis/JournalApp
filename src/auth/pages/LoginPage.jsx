@@ -7,15 +7,22 @@ import { Google } from '@mui/icons-material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 
+/**
+ * Se crea una constante con el objeto, porque si se harcodea el objeto en el useForm
+ * lo va a detectar como un nuevo objeto en memoria, y se va a estar lanzando el useEffect
+ * en useForm, provocando un loop infinito
+ */
+const formData = {
+    email: 'asd@asd.com',
+    password: '123456'
+}
+
 export const LoginPage = () => {
     const { status, errorMessage } = useSelector( state => state.auth ); 
 
     const dispatch = useDispatch();
 
-    const { email, password, onInputChange } = useForm({
-        email: 'asd@asd.com',
-        password: '123456'
-    });
+    const { email, password, onInputChange } = useForm(formData);
 
     // If status change, update the value otherwise it does nothing
     const isAuthenticating = useMemo( () => status === 'checking', [status]);

@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 
 export const useForm = ( initialForm = {}, formValidations = {} ) => {
-  
     const [ formState, setFormState ] = useState( initialForm );
     const [formValidation, setFormValidation] = useState({})
 
@@ -9,7 +8,16 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
         createValidators();
 
     }, [formState]);
-    
+
+    /**
+     * Se utiliza otro useEffect porque el useForm solo se ejecuta una vez,
+     * entonces tenemos que decile a react que si el initialForm cambia se actualicen los datos
+     * del initialForm
+     */
+    useEffect(() => {
+        setFormState( initialForm );
+    }, [initialForm]);
+
     const isFormValid = useMemo( () => {
         
         for (const formKey of Object.keys(formValidation)) {
