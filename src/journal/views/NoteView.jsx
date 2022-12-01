@@ -1,5 +1,6 @@
-import { SaveOutlined } from "@mui/icons-material"
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { SaveOutlined, UploadFileOutlined } from "@mui/icons-material"
+import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
+import { useRef } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -15,6 +16,8 @@ export const NoteView = () => {
     const { active:note, messageSaved, isSaving } = useSelector( state => state.journal );
     
     const { title, body, date, onInputChange, formState } = useForm(note);
+
+    const fileInputRef = useRef();
 
     /**
      * Se utiliza el useMemo para no tener que hacer esta operacion cada
@@ -40,6 +43,14 @@ export const NoteView = () => {
         dispatch( startSaveNote() )
     }
 
+    const onFileInputChange = ({ target }) => {
+        if ( target.files === 0) return;
+
+        console.log('Subiendo archivos')
+
+        // dispatch( startUpLoadingFiles( target.files ));
+    }
+
     return (
         <Grid
             className="animate__animated animate__fadeIn animate__faster"
@@ -54,6 +65,23 @@ export const NoteView = () => {
             </Grid>
 
             <Grid item>
+
+                <input
+                    ref={ fileInputRef }
+                    type="file"
+                    multiple
+                    onChange={ onFileInputChange }
+                    style={{ display: 'none' }}
+                />
+
+                <IconButton
+                    color="primary"
+                    disabled={ isSaving }
+                    onClick={ () => fileInputRef.current.click()} // Hace la referencia al click del file input
+                >
+                    <UploadFileOutlined />
+                </IconButton>
+
                 <Button
                     disabled={ isSaving }
                     onClick={ onSaveNote }
