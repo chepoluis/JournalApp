@@ -1,7 +1,8 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { fileUpload } from "../../helpers/fileUpload";
 import { loadNotes } from "../../helpers/loadNotes";
-import { addNewEmptyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote } from "./";
+import { addNewEmptyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote, setPhotosToActiveNote } from "./";
 
 export const startNewNote = () => {
     // getState (optional): is a function that returns all the state of the application
@@ -55,5 +56,23 @@ export const startSaveNote = () => {
         await setDoc( docRef, noteToFireStore, { merge: true }); // merge, will update fields in the document or create it if doesn't exists
 
         dispatch( updateNote( note ) );
+    }
+}
+
+export const startUploadingFiles = (files = []) => {
+    return async (dispatch) => {
+        dispatch( setSaving() );
+
+        const fileUploadPromises = [];
+
+        // TODO: There is a wrong behaviour, the images should not be uploaded to Cloudinary
+        // until the user clicks "Guardar" button
+        for (const file of files) {
+            fileUploadPromises.push( fileUpload(file) );
+        }
+
+        const photosUrl = await Promise.all( fileUploadPromises );
+
+        dispatch( setPhotosToActiveNote(photosUrl) );
     }
 }

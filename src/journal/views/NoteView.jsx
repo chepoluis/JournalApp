@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Swal from "sweetalert2"
 import 'sweetalert2/dist/sweetalert2.css';
 import { useForm } from "../../hooks/useForm"
-import { setActiveNote, startSaveNote } from "../../store/journal"
+import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/journal"
 import { ImageGallery } from "../components"
 
 export const NoteView = () => {
@@ -46,9 +46,7 @@ export const NoteView = () => {
     const onFileInputChange = ({ target }) => {
         if ( target.files === 0) return;
 
-        console.log('Subiendo archivos')
-
-        // dispatch( startUpLoadingFiles( target.files ));
+        dispatch( startUploadingFiles( target.files ));
     }
 
     return (
