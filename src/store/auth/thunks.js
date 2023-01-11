@@ -3,6 +3,7 @@
  */
 
 import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
+import { clrearNotesLogout } from "../journal/journalSlice";
 import { checkingCredentials, login, logout } from "./authSlice";
 
 export const checkingAuthentication = (email, password) => {
@@ -56,6 +57,7 @@ export const startLogout = () => {
             console.error(error);
         }
 
+        dispatch(clrearNotesLogout());
         dispatch( logout({}) );
     }
 }

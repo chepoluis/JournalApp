@@ -26,6 +26,8 @@ export const JournalPage = () => {
                     : <NothingSelectedView />       
             }
 
+            // TODO: al momento de crear una nota, no se pueden agregar imagenes,
+            // el error es que el array de las imagenes aun no se crea
             <IconButton
                 onClick={ onClickNewNote }
                 disabled={ isSaving }

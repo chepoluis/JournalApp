@@ -57,8 +57,24 @@ export const journalSlice = createSlice({
             state.active.imageUrls = [...state.active.imageUrls, ...action.payload];
             state.isSaving = false;
         },
+        clrearNotesLogout: (state) => {
+            state.isSaving = false;
+            state.messageSaved = '';
+            state.notes = [];
+            state.active = null;
+        },
         deleteNoteById: (state, action) => {
-            
+            // let index;
+
+            // for (index = 0; index < state.notes.length; index++) {
+            //     if (state.notes[index].id === action.payload) {
+            //         break;
+            //     }
+            // }
+            // state.notes.splice(index, 1);
+            /** or this solution */
+            state.notes = state.notes.filter((note) => note.id !== action.payload);
+            state.active = null;
         }
     }
 });
@@ -73,5 +89,6 @@ export const {
     setSaving,
     updateNote,
     setPhotosToActiveNote,
+    clrearNotesLogout,
     deleteNoteById
 } = journalSlice.actions;
